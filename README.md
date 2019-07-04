@@ -58,14 +58,14 @@ contributing to this project, you agree to abide by its terms.
   - [x] Write short paragraph describing the package. Copy it to:
       - [x] the ‘Description’ field of `DESCRIPTION`
       - [x] the `@description` documentation field of `R/package.R`
-  - [ ] Log in to [travis](https://travis-ci.org) (e.g. with your GitHub
+  - [x] Log in to [travis](https://travis-ci.org) (e.g. with your GitHub
     credentials) and turn on tracking of your new repo
   - [x] edit the [travis](https://travis-ci.org) and
     [codecov](https://codecov.io) badges in `README.Rmd` to point to
     your package
   - [ ] Write a simple example introducing the package and add it to
     `R/package.R`
-  - [ ] Update `README.Rmd` to sell to people with a sales pitch and
+  - [x] Update `README.Rmd` to sell to people with a sales pitch and
     maybe an example that creates a figure, to get people excited about
     your package.
   - [ ] Start adding functions, documentation and examples to new R
