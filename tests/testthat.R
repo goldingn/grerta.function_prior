@@ -1,3 +1,3 @@
 library(testthat)
-library(greta.template)
-test_check("greta.template")
+library(greta.function_prior)
+test_check("greta.function_prior")
