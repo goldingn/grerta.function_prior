@@ -1,4 +1,4 @@
-Package: greta.function_prior
+Package: greta.funprior
 Title: Specifying Priors Over Parametric Functions in greta
 Version: 0.0.0.9000
 Authors@R: 
@@ -13,15 +13,15 @@ Description: It's common in Bayesian statistical analyses to have prior
   probability predicted by a logistic regression under some set of covariates, 
   or the timing of peaks in a dynamical model. In these situations it can be 
   difficult to determine the priors on the model parameters that correspond to 
-  these priors on summary statistics. greta.function_prior lets you define 
+  these priors on summary statistics. greta.funprior lets you define 
   priors on these summary statistics by considering them as priors over 
   parametric functions, and provides a simple interface for fitting models. 
   with these priors.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/goldingn/greta.function_prior
-BugReports: https://github.com/goldingn/greta.function_prior/issues
+URL: https://github.com/goldingn/greta.funprior
+BugReports: https://github.com/goldingn/greta.funprior/issues
 Suggests: 
     testthat (>= 2.1.0),
     covr,

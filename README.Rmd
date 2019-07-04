@@ -12,12 +12,12 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# greta.function_prior
+# greta.funprior
 
 <!-- badges: start -->
 <!-- once you've signed into travis and set it to wath your new repository, you can edit the following badges to point to your repo -->
-[![Build Status](https://travis-ci.org/goldingn/greta.function_prior.svg?branch=master)](https://travis-ci.org/<user>/<repo>)
-[![Codecov test coverage](https://codecov.io/gh/goldingn/greta.function_prior/branch/master/graph/badge.svg)](https://codecov.io/gh/goldingn/greta.function_prior?branch=master)
+[![Build Status](https://travis-ci.org/goldingn/greta.funprior.svg?branch=master)](https://travis-ci.org/<user>/<repo>)
+[![Codecov test coverage](https://codecov.io/gh/goldingn/greta.funprior/branch/master/graph/badge.svg)](https://codecov.io/gh/goldingn/greta.funprior?branch=master)
 <!-- badges: end -->
 
 
@@ -25,7 +25,7 @@ It's common in Bayesian statistical analyses to have prior information on summar
 For example, you may have prior information about the probability predicted by a logistic regression under some set of covariates, or the timing of peaks in a
 dynamical model.
 In these situations it can be difficult to determine the priors on the model parameters that correspond to these priors on summary statistics.
-greta.function_prior lets you define priors on these summary statistics by considering them as priors over parametric functions, and provides a simple interface for fitting models.
+greta.funprior lets you define priors on these summary statistics by considering them as priors over parametric functions, and provides a simple interface for fitting models.
 
 This is an early prototype based on the [greta.template](https://github.com/greta-dev/greta.template) template package.
 The functionality hasn't been added yet.

@@ -1,3 +1,3 @@
 library(testthat)
-library(greta.function_prior)
-test_check("greta.function_prior")
+library(greta.funprior)
+test_check("greta.funprior")

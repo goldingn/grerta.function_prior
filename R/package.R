@@ -2,7 +2,7 @@
 # look at when they get started
 
 #' @title Specifying Priors Over Parametric Functions in greta
-#' @name greta.function_prior
+#' @name greta.funprior
 #'
 #' @description It's common in Bayesian statistical analyses to have prior
 #'   information on summary statistics of a model rather than on the model
@@ -11,7 +11,7 @@
 #'   covariates, or the timing of peaks in a dynamical model. In these
 #'   situations it can be difficult to determine the priors on the model
 #'   parameters that correspond to these priors on summary statistics.
-#'   greta.function_prior lets you define priors on these summary statistics by
+#'   greta.funprior lets you define priors on these summary statistics by
 #'   considering them as priors over parametric functions, and provides a simple
 #'   interface for fitting models.
 #'
