@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# greta.function\_prior
+# greta.funprior
 
 <!-- badges: start -->
 
 <!-- once you've signed into travis and set it to wath your new repository, you can edit the following badges to point to your repo -->
 
 [![Build
-Status](https://travis-ci.org/goldingn/greta.function_prior.svg?branch=master)](https://travis-ci.org/%3Cuser%3E/%3Crepo%3E)
+Status](https://travis-ci.org/goldingn/greta.funprior.svg?branch=master)](https://travis-ci.org/%3Cuser%3E/%3Crepo%3E)
 [![Codecov test
-coverage](https://codecov.io/gh/goldingn/greta.function_prior/branch/master/graph/badge.svg)](https://codecov.io/gh/goldingn/greta.function_prior?branch=master)
+coverage](https://codecov.io/gh/goldingn/greta.funprior/branch/master/graph/badge.svg)](https://codecov.io/gh/goldingn/greta.funprior?branch=master)
 <!-- badges: end -->
 
 It’s common in Bayesian statistical analyses to have prior information
@@ -20,8 +20,8 @@ probability predicted by a logistic regression under some set of
 covariates, or the timing of peaks in a dynamical model. In these
 situations it can be difficult to determine the priors on the model
 parameters that correspond to these priors on summary statistics.
-greta.function\_prior lets you define priors on these summary statistics
-by considering them as priors over parametric functions, and provides a
+greta.funprior lets you define priors on these summary statistics by
+considering them as priors over parametric functions, and provides a
 simple interface for fitting models.
 
 This is an early prototype based on the
