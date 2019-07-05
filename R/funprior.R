@@ -32,9 +32,6 @@
 #' mean_heights_true <- growth(ages, alpha_true, beta_true, gamma_true)
 #' heights <- rnorm(n, mean_heights_true, sd_true)
 #'
-#' # fit a model
-#' library(greta)
-#'
 #' # growth model parameters - improper flat priors on these
 #' alpha <- variable()
 #' beta <- variable(lower = 0)
@@ -52,18 +49,18 @@
 #' # belief
 #' fpri <- funprior(alpha, beta, gamma,
 #'                  code = {
-#'
 #'                    time_diff <- 1
-#'                    time_seq <- seq(0, 30, by = time_diff)
+#'                    n <- 30
+#'                    time_seq <- seq(1, n, by = time_diff)
 #'                    height_seq <- growth(time_seq, alpha, beta, gamma)
-#'                    grad <- diff(height_seq) / time_diff
+#'                    height_diffs <- height_seq[-1] - height_seq[-n]
+#'                    grad <- height_diffs / time_diff
 #'
 #'                    max_grad <- max(grad)
 #'                    height_25 <- growth(25, alpha, beta, gamma)
 #'
-#'                    distribution(max_grad) <-  normal(30, 5, truncation = c(0, Inf))
-#'                    distribution(height_25) <- normal(171, 0.5)
-#'
+#'                    distribution(max_grad) <-  normal(13, 5, truncation = c(0, Inf))
+#'                    distribution(height_25) <- normal(160, 0.5)
 #'                  })
 #'
 #' # the model will have been updated with this prior knowledge, and you can
