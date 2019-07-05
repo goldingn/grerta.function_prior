@@ -2,6 +2,15 @@
 # predetermined parametric function, but provide prior knowledge on some or all
 # of the function values, rather than directly placing them on the parameters.
 
+# alternative idea: don't try to context manage this. When greta.funprior is
+# loaded, users are allowed to define distributions on operation greta arrays
+# (it overloads `distribution<-` to allow this). When this happens, greta adds
+# that density to the target, and computes the log determinant of the Jacobian
+# between from any greta variables down the tree to this op, and adds that too.
+
+# Finding those variables is doable with recursion. Doing the pullback is harder
+# to define an interface for. Could message whenever the user does this?
+
 #' @title construct a prior over a parametric function in greta
 #'
 #' @param \dots greta arrays representing the parameters in your function
@@ -28,7 +37,7 @@
 #'
 #' # fake data
 #' n <- 100
-#' ages <- runif(n, 0, 100)
+#' ages <- runif(n, 0, 50)
 #' mean_heights_true <- growth(ages, alpha_true, beta_true, gamma_true)
 #' heights <- rnorm(n, mean_heights_true, sd_true)
 #'
@@ -59,7 +68,7 @@
 #'                    max_grad <- max(grad)
 #'                    height_25 <- growth(25, alpha, beta, gamma)
 #'
-#'                    distribution(max_grad) <-  normal(13, 5, truncation = c(0, Inf))
+#'                    distribution(max_grad) <- normal(13, 5, truncation = c(0, Inf))
 #'                    distribution(height_25) <- normal(160, 0.5)
 #'                  })
 #'
@@ -68,17 +77,18 @@
 #' # parameters
 #'
 #' m <- model(alpha, beta, gamma, sd)
-funprior <- function (..., expr) {
+funprior <- function (..., code) {
   
   # catch the code and the parent environment
-  code <- substitute(expr)
+  code <- substitute(code)
   env <- parent.frame()
   
   # get a named list of parameters (guess names from call)
   params <- list(...)
   names <- names(params)
-  cl <- match.call()
-  nm <- as.character(as.list(cl)[-1])
+  cl <- as.list(match.call())
+  cl <- cl[-c(1, length(cl))]
+  nm <- as.character(cl)
   if (is.null(names)) {
     names(params) <- nm
   } else {
@@ -132,7 +142,7 @@ funprior <- function (..., expr) {
 
 # a distribution node to represent this prior. Mostly empty, since the user won't
 # actually deal with it
-functional_prior_distribution <- R6Class(
+functional_prior_distribution <- R6::R6Class(
   "functional_prior_distribution",
   inherit = distribution_node,
   public = list(
@@ -195,7 +205,8 @@ build_r_function <- function(arg_names, code, env) {
   names(args) <- arg_names
   formals(r_fun) <- args
   body(r_fun) <- code
-  `parent.env<-`(r_fun) <- env
+  r_fun_env <- environment(r_fun)
+  parent.env(r_fun_env) <- env
   r_fun
   
 }

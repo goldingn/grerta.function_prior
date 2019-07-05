@@ -27,7 +27,8 @@ Suggests:
     covr,
     spelling
 Imports: 
-    tensorflow (>= 1.13.0)
+    tensorflow (>= 1.13.0),
+    R6
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 Depends: 
