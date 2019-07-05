@@ -42,6 +42,58 @@
 #'
 #' # get the distribution over y
 #' distribution(y)
+#'
+#' # more involved example setting a prior over a summary statistic of a model
+#' # growth function
+#' growth <- function (age, alpha, beta, gamma) {
+#'   age2 <- (age - 5) ^ 2
+#'   (alpha * age2) / (beta + age2) + gamma
+#' }
+#'
+#' # true parameters
+#' alpha_true <- 3
+#' beta_true <- 5
+#' gamma_true <- 170
+#' sd_true <- 3
+#'
+#' # fake data
+#' n <- 100
+#' ages <- runif(n, 0, 50)
+#' mean_heights_true <- growth(ages, alpha_true, beta_true, gamma_true)
+#' heights <- rnorm(n, mean_heights_true, sd_true)
+#'
+#' # growth model parameters - improper flat priors on these
+#' alpha <- variable()
+#' beta <- variable(lower = 0)
+#' gamma <- variable(lower = 0)
+#'
+#' # the likelihood
+#' sd <- cauchy(0, 1, truncation = c(0, Inf))
+#' mean_heights <- growth(ages, alpha, beta, gamma)
+#' distribution(heights) <- normal(mean_heights, sd)
+#'
+#' # we have prior knowledge that the population mean height at age 25 is around
+#' # 171, with a standard deviation (estimation error) of 0.5. We also have prior
+#' # knowledge that the maximum year-on-year growth is around 30cm, with standard
+#' # deviation 5, but must be positive. We provide some code specifying this prior
+#' # belief
+#' time_diff <- 1
+#' n <- 30
+#' time_seq <- seq(1, n, by = time_diff)
+#' height_seq <- growth(time_seq, alpha, beta, gamma)
+#' height_diffs <- height_seq[-1] - height_seq[-n]
+#' grad <- height_diffs / time_diff
+#'
+#' max_grad <- max(grad)
+#' height_25 <- growth(25, alpha, beta, gamma)
+#'
+#' distribution(max_grad) <- normal(13, 5, truncation = c(0, Inf))
+#' distribution(height_25) <- normal(160, 0.5)
+#' 
+#' # greta.funprior will automatically compute the necessary gradient adjustments
+#' # to make this a valid model
+#'
+#' m <- model(alpha, beta, gamma, sd)
 #' }
 `distribution<-` <- function(greta_array, value) {
   
@@ -115,7 +167,7 @@
     
     # put it in the same scope, but add in the required objects
     env <- environment(new_tf_log_density_function)
-    parent.env(env) <- parent.env(tf_log_density_function)
+    parent.env(env) <- parent.env(old_tf_log_density_function)
     env$old_tf_log_density_function <- old_tf_log_density_function
     env$compute_ljac <- compute_ljac
     env$upstream_variable_nodes <- upstream_variable_nodes
