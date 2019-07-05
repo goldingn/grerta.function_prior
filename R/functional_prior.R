@@ -10,6 +10,7 @@
 #'   computed from your function and should no introduce any more parameters to
 #'   the model.
 #'
+#' @export
 #' @importFrom R6 R6Class
 #'
 #' @examples
@@ -117,11 +118,11 @@ funprior <- function (..., expr) {
   # combine the parameters into a single parameter vector, that will notionally
   # be the target of the prior distribution
   theta <- do.call(`c`, params)
-  prior <- distrib(tf_density = tf_density, dim = dim(theta))
+  prior <- distrib(args_list = params, tf_density = tf_density, dim = dim(theta))
   distribution(theta) <- prior
   
   # invisibly return an object we can do stuff (like plotting) with later
-  result <- list(parameters = params,
+  result <- funprior_object(parameters = params,
                  tf_density = tf_density,
                  target = theta,
                  code = code)
@@ -140,24 +141,34 @@ functional_prior_distribution <- R6Class(
   public = list(
     
     tf_density = NULL,
+    args_list = list(),
     
-    initialize = function(tf_density, dim = NULL) {
+    initialize = function(args_list, tf_density, dim = NULL) {
       
+      self$args_list <- args_list
       self$tf_density <- tf_density
-      
       super$initialize("funprior", dim)
       
     },
     
     tf_distrib = function(parameters, dag) {
       
+      nodes_list <- lapply(self$args_list, greta::get_node)
+      
       # rather than the target, find the tensors from which it was created
-      unpack <- function (x) {
+      unpack <- function () {
+        
         stop ("not implemented")
+        
+        # get the tensors corresponding to the arguments in args_list
+        dag$get_tf_name(nodes_list)
+
+        
         # can do this with nodes. May be possible to do it with tensors instead?
+        # that would be cleaner, but tricky
       }
       
-      log_prob <- function(x) {
+      log_prob <- function() {
         
         # get the tensors for unpacked theta and run density on that
         x_list <- unpack(x)
